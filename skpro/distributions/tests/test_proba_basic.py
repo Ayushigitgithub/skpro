@@ -12,6 +12,8 @@ from skbase.utils.dependencies import _check_soft_dependencies
 
 from skpro.tests.test_switch import run_test_module_changed
 
+from skpro.distributions.normal import Normal
+
 
 @pytest.mark.skip(reason="Undiagnosed failure. Skipping until resolved. See #918.")
 def test_proba_example():
@@ -359,3 +361,10 @@ def test_none_required_numeric_params_rejected():
 
     with pytest.raises(ValueError, match="must not be None"):
         GumbelR(mu=None, sigma=None)
+
+def test_normal_nonpositive_sigma_rejected():
+    with pytest.raises(ValueError, match="sigma must be positive"):
+       Normal(mu=0, sigma=-1)
+
+    with pytest.raises(ValueError, match="sigma must be positive"):
+        Normal(mu=0, sigma=0)
